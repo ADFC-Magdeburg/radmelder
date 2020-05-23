@@ -4,30 +4,30 @@
 h1 {
   font-weight: 900;
   text-transform: uppercase;
-  color: #045922;
+  color: #0b4c7a;
 }
 h2 {
   font-weight: 900;
   text-transform: uppercase;
-  color: #045922;
+  color: #0b4c7a;
 }
 h5 {
   //font-weight: 900;
   //text-transform: uppercase;
-  color: #045922;
+  color: #0b4c7a;
 }
 .karte {
   padding: 0;
   margin: 0
 }
 .einleitung {
-  background-color: #045922;
+  background-color: #0b4c7a;
   padding-top: 15px;
 }
 body {
   //padding-top: 60px;
   padding-bottom: 20px;
-  //background-color: #045922;
+  //background-color: #0b4c7a;
   font-family: 'Titillium Web', sans-serif;
   //color: white;
 }
@@ -39,7 +39,7 @@ body {
   @include sans-serif-font;
 }
 .hinzuefuegen {
-  color: #045922;
+  color: #0b4c7a;
 }
 .container {
   background-color: white;
@@ -68,6 +68,21 @@ body {
 .btn-xl {
   padding: 1rem 2rem;
 }
+
+.btn-header {
+  padding: 0.5rem 1rem;
+  background-color: #eeeeee;
+}
+
+.btn.hinzuefuegenheader {
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 300px;
+  @include sans-serif-font;
+}
+
 .markertitle {
   font-size: 13pt;
   font-family: 'Titillium Web';
@@ -76,7 +91,7 @@ body {
   padding-bottom: 15px;
 }
 .bg-green {
-  background-color: #045922;
+  background-color: #0b4c7a;
 }
 .col-custom {
   padding-left: 0;
@@ -109,7 +124,7 @@ b {
   margin-bottom: 10px;
 }
 .card.clicked {
-  background-color: #045922;
+  background-color: #0b4c7a;
 }
 .no-cl {
   cursor: default;
@@ -118,7 +133,7 @@ form.form {
   width:100%;
 }
 #main {
-  height: 500px;
+  height: 750px;
   width: 100%;
 }
 @media (max-height: 550px) {
