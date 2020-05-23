@@ -1,13 +1,23 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf8" />
-  <title>Radmelder</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta charset="utf-8" />
+  <title>Radwegmelder</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="ADFC Radwegmelder für Magdeburg" />
+	<meta property="og:description" content="Kleine Schritte – Große Wirkung: RADWEGMELDER für Magdeburg! Markiere auf dieser Karte, wo das Fahrradfahren in Magdeburg für dich unbequem, stressig oder gar gefährlich wird. Teile uns die Problemstelle möglichst genau mit, indem du am besten auch ein Foto davon hochlädst. Beschreibe, was dich stört und warum. Äußere deinen Verbesserungsvorschlag. Wenn du willst, kannst du uns auch deine Mailadresse hinterlassen, damit wir dich bei Unklarheiten kontaktieren können.Dein Fahrrad. Dein Weg. Deine Stadt. Packen wir es an!" />
+	<meta name="description" content="Kleine Schritte – Große Wirkung: RADWEGMELDER für Magdeburg! Markiere auf dieser Karte, wo das Fahrradfahren in Magdeburg für dich unbequem, stressig oder gar gefährlich wird. Teile uns die Problemstelle möglichst genau mit, indem du am besten auch ein Foto davon hochlädst. Beschreibe, was dich stört und warum. Äußere deinen Verbesserungsvorschlag. Wenn du willst, kannst du uns auch deine Mailadresse hinterlassen, damit wir dich bei Unklarheiten kontaktieren können.Dein Fahrrad. Dein Weg. Deine Stadt. Packen wir es an!" />
+	<meta property="og:image" content="https://adfc-magdeburg.de/radwegmelder/img/shareimage.jpg"/>
+
+
+
+
  <link rel="stylesheet" href="css/leaflet.css"/>
    <link rel="stylesheet" href="css/bootstrap.min.css"/>
 
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<!--link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"-->
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
 <link rel="stylesheet" href="css/leaflet.extra-markers.min.css">
 <link rel="stylesheet" href="css/ngDialog.min.css"/>
 <link rel="stylesheet" href="css/ngDialog-theme-plain.min.css"/>
@@ -28,16 +38,37 @@
 <script src="js/ui-leaflet.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/config.js"></script>
-<script src="js/leaflet.js"
+<script src="js/leaflet.js"></script>
+<script src="js/leaflet.extra-markers.min.js"></script>
+<!--script src="js/leaflet.js"
    integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
    crossorigin=""></script>
-   <script src="js/leaflet.extra-markers.min.js"></script>
+   <script src="js/leaflet.extra-markers.min.js"></script-->
+   
+   <script type="text/javascript">
+   
+   								
+   								function freischalten() {
+   								  var checkBox = document.getElementById("myCheck");
+   								  var text = document.getElementById("sendenknopf");
+   								  if (checkBox.checked == true){
+   									text.style.display = "block";
+   								  } else {
+   									text.style.display = "none";
+   								  }
+   								}
+   								
+   								
+   								
+  </script>
+   
+   
 </head>
 
 <body ng-app="radwege"  ng-controller="core">
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top"><img ng-show="visuals.logo" src="{{visuals.logo}}" style="height: 1em;"/><span ng-show="visuals.logo">&nbsp;&nbsp;</span>{{visuals.header_title}}</a>
+      <a class="navbar-brand js-scroll-trigger" href="#page-top"><img ng-show="visuals.logo" src="{{visuals.logo}}" style="height: 1em;"/><span ng-show="visuals.logo">&nbsp;&nbsp;</span>{{visuals.header_title}}</a><a href="#sprungmarke" target=_self style="color: #0b4c7a;" ng-click="addpoint=!addpoint;" class="btn btn-light btn-header cl hinzuefuegenheader">{{visuals.main.call_to_action}}</a>
     </div>
   </nav>
 <div class="container-fluid karte">
@@ -55,7 +86,8 @@
     <h3 class="text-white" ng-bind-html="visuals.main.title"></h3>
     <p class="einleitung-text" ng-repeat="c in visuals.main.content">{{c}}</p>
     </div></div><div class="row"> <div class="col-lg-12" style="text-align: center;">
-      <a style="color: #045922;" ng-click="addpoint=!addpoint;" class="btn btn-light btn-xl cl hinzuefuegen"></span>{{visuals.main.call_to_action}}</a>
+	<a name="sprungmarke"></a>
+      <a style="color: #0b4c7a;" ng-click="addpoint=!addpoint;" class="btn btn-light btn-xl cl hinzuefuegen">{{visuals.main.call_to_action}}</a>
     </div>
 </div>
 </div>
@@ -67,7 +99,7 @@
 
 
 <form class="form" ng-submit="submit_form()" ng-show="addpoint">
-  <div class="form-group">
+  <div class="form-group">    
 	<label for="Titel">Titel/Ort*:</label>
 	<input ng-model="ownpoint.Titel" type="text" name="Titel" value="" class="form-control">
 <small class="form-text text-muted">Gib kurz an, um welches Problem es sich handelt und nenne die Straße der Problemstelle. </small>
@@ -107,10 +139,15 @@
   <small class="form-text text-muted">{{visuals.form.mail.caption}}</small>
 </div>
 
-<div class="form-check">
-  <label for="datenschutzCheck" class="form-check-label">{{visuals.form.privacy_note}}</label>
+<div class="form-group">
+
+  <input type="checkbox" id="myCheck" onclick="freischalten()"/>{{visuals.form.privacy_note}}</input> 
+
 </div>
-	<button class="btn btn-primary" ng-click="send_new2()" name="absenden">Absenden</button>
+
+	<button id="sendenknopf" style="display:none" class="btn btn-primary" ng-click="send_new2()" name="absenden">Absenden</button>
+	
+	
   <div class="progress" ng-show="inprogress">
   <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
 </div>
@@ -127,7 +164,7 @@
   <div class="container">
     <div class="row">
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 liste">
-  <h2 style="width: 100%; text-align:center; color: #045922;">Liste der Probleme: {{markers.length-1}} gemeldet</h2>
+  <h2 style="width: 100%; text-align:center; color: #0b4c7a;">Liste der Probleme: {{markers.length}} gemeldet</h2>
 </div>
 </div>
 <div class="row">
@@ -146,17 +183,39 @@
 </div>
 <div class="row">
   <div class="card-group">
-  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 card-wrapper" ng-hide="f.visible==false" ng-repeat="f in markers | filter:suche |filter: filterFunction | orderBy: '-supported' | limitTo: pageSize:currentPage*pageSize">
+  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 card-wrapper" ng-hide="f.visible==false" ng-repeat="f in markers | filter:suche |filter: filterFunction | orderBy: '-id' | limitTo: pageSize:currentPage*pageSize">
   <div id="{{'eintrag'+f.id}}" class="card" ng-mouseover="selectListElement(f)" ng-mouseleave="listMouseLeave(f)" ng-class="{'active': f.active, 'clicked': f.clicked, 'text-white': f.clicked}">
     <div class="card-header text-white" ng-style="f.clicked? null:{'background-color': getColor(f.Status)}">
       {{f.Status}}
     </div>
-    <img class="img-fluid card-img-top" style="" ng-hide="false" src="/upload/{{(!f.Bild || f.Bild == '' || f.Bild == 'NULL')? 'platzhalter.jpg':f.Bild}}" style="max-width: 100%; height: auto">
+    <img class="img-fluid card-img-top" style="" ng-hide="false" src="https://adfc-magdeburg.de/radwegmelder/upload/{{(!f.Bild || f.Bild == '' || f.Bild == 'NULL')? 'platzhalter.jpg':f.Bild}}" style="max-width: 100%; height: auto">
+	
     <div class="card-body">
       <h5 class="card-title" ng-class="{'text-white': f.clicked}">{{f.Titel}}</h5>
-          <p class="card-text" ng-show="f.more"><b ng-hide="!f.Loesung || f.Loesung=='' || f.Loesung=='NULL'">Problem<br/></b>{{f.Problem}}<br/><b ng-hide="!f.Loesung || f.Loesung=='' || f.Loesung=='NULL'">L&ouml;sung<br/></b>{{f.Loesung}}</p>
-          <a class="card-link cl" ng-class="{'text-white': f.clicked}" style="color: #e52b50; text-decoration: underline;" ng-click="f.more=!f.more;">{{f.more? 'Weniger':'Mehr'}}</a><br/>
-          <button class="btn btn-outline-secondary btn-sm" ng-class="{'text-white': f.clicked}" ng-style="f.user_supported? {cursor: 'default'}:null" ng-click="vote(f)"><span ng-hide="f.user_supported"><span class="fas fa-thumbs-up"></span> Voten</span><span ng-show="f.user_supported"><span class="fas fa-check"></span>Gevoted</span></button><span ng-class="{'text-white': f.clicked, 'text-muted': !f.clicked}">&nbsp;{{f.supported? f.supported:0}}x gevoted</span>
+          <p class="card-text" ng-show="f.more">
+		<b ng-hide="!f.Loesung || f.Loesung=='' || f.Loesung=='NULL'">Problem<br/>
+		</b>
+		{{f.timestamp}} | <span ng-bind-html="f.Problem">{{f.Problem}}</span><br>
+		
+		<a style="color: #e52b50; text-decoration: underline;" href="php/ergaenzung.php?id={{f.id}}">Ergänzung melden</a><br/>
+		<a style="color: #e52b50; text-decoration: underline;" href="php/share.php?id={{f.id}}">Link zum Teilen</a>
+		<b ng-hide="!f.Loesung || f.Loesung=='' || f.Loesung=='NULL'">L&ouml;sung<br/></b>{{f.Loesung}}</p>
+		<a class="card-link cl" ng-class="{'text-whiteee': f.clicked}" style="color: #e52b50; text-decoration: underline;" ng-click="f.more=!f.more;">{{f.more? 'Details schließen':'Details anzeigen'}}</a>
+		<br>
+		<br/>
+          	<button class="btn btn-outline-secondary btn-sm" ng-class="{'text-white': f.clicked}" ng-style="f.user_supported? {cursor: 'default'}:null" ng-click="vote(f)">
+			<span ng-hide="f.user_supported">
+				<span class="fas fa-thumbs-up"></span>
+				Voten
+			</span>
+			<span ng-show="f.user_supported">
+				<span class="fas fa-check"></span>
+				Gevoted
+			</span>
+		</button>
+		<span ng-class="{'text-white': f.clicked, 'text-muted': !f.clicked}">&nbsp;{{f.supported? f.supported:0}}x gevoted</span>
+		  
+		  
     </div>
 </div>
 
