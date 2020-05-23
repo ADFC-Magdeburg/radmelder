@@ -92,11 +92,11 @@ $scope.$on('leafletDirectiveMarker.editmap.dragend', function (e, args) {
     $scope.selecteditem();
   });
   $scope.mail = {
-    subject: "Rückfrage zu Ihrem Radmelder-Beitrag",
+    subject: "Rückfrage zu deinem Radmelder-Beitrag",
     message:""
   };
   $scope.activatemail = function (f) {
-    $scope.mail.message = "Liebe*r Nutzer*in!\n\nWir danken Ihnen sehr für Ihren Beitrag "+f.Titel+".\n\nLeider ist bei uns dazu kein Foto eingegangen. Da es immer zu technischen Problemen kommen kann, haken wir lieber noch einmal nach: Haben Sie ein Foto eingesandt?\n\nWir freuen uns über eine Rückmeldung und ggf. die Zusendung eines Fotos. Danach veröffentlichen wir Ihren Eintrag. Sie können gern auch noch ein Foto nachreichen.\n\n Vielen Dank für Ihre Beteiligung!\n\nIhr Radmelder-Team\n\n[Interne ID: "+f.id+"]";
+    $scope.mail.message = "Liebe*r Nutzer*in!\n\nWir danken dir sehr für deinen Beitrag <b>"+f.Titel+"</b>. Leider ist bei uns dazu kein Foto eingegangen. Da es immer zu technischen Problemen kommen kann, haken wir lieber noch einmal nach: Hast du ein Foto eingesandt?\n\nWir freuen uns über eine Rückmeldung und ggf. die Zusendung eines Fotos. Danach veröffentlichen wir deinen Eintrag.\n\n Vielen Dank für Deine Beteiligung!\n\nDein Radwegmelder-Team\n\n[Interne ID: "+f.id+"]";
     $scope.mailing=true;
   };
 $scope.sendmail = function (f, m) {
@@ -106,7 +106,7 @@ $scope.sendmail = function (f, m) {
     alert(response.data);
     $scope.mailing=false;
     $scope.mail = {
-      subject: "Rückfrage zu Ihrem Radmelder-Beitrag",
+      subject: "Rückfrage zu deinem Radmelder-Beitrag",
       message:""
     };
   });
@@ -114,7 +114,7 @@ $scope.sendmail = function (f, m) {
 $scope.resetmail = function () {
   $scope.mailing=false;
   $scope.mail = {
-    subject: "Rückfrage zu Ihrem Radmelder-Beitrag",
+    subject: "Rückfrage zu deinem Radmelder-Beitrag",
     message: $scope.f.mailing? $scope.f.mailing: "",
   };
 };
