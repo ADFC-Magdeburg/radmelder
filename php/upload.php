@@ -7,10 +7,10 @@ $filename = $_POST['filename'];
 $location = '/img/';
 
 define ('SITE_ROOT', realpath(dirname(__FILE__)));
-//$save_name = $_SERVER['DOCUMENT_ROOT'].'/upload/'.$filename;
+//$save_name = $_SERVER['DOCUMENT_ROOT'].'/'.$uploadpath.'/'.$filename;
 //echo $save_name;
 
 /* Upload file */
-move_uploaded_file($_FILES['file']['tmp_name'],$_SERVER['DOCUMENT_ROOT'].'/upload/'.$filename);
+move_uploaded_file($_FILES['file']['tmp_name'],$_SERVER['DOCUMENT_ROOT'].'/'.$uploadpath.'/'.$filename);
 
 ?>
