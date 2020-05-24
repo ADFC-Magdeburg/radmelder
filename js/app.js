@@ -1,9 +1,9 @@
-var app = angular.module("radwege", ['ui-leaflet', 'ngCookies', 'LocalStorageModule', 'ui.bootstrap', 'ngImageCompress', 'ngSanitize']);
+﻿var app = angular.module("radwege", ['ui-leaflet', 'ngCookies', 'LocalStorageModule', 'ui.bootstrap', 'ngImageCompress', 'ngSanitize']);
 app.config(function (localStorageServiceProvider) {
   localStorageServiceProvider
   .setPrefix('melder')
-  .setStorageCookie(120, '/', false)
-  .setStorageCookieDomain('albwe.de');
+  .setStorageCookie(120, '/radwegmelder/', false)
+  .setStorageCookieDomain('adfc-magdeburg.de');
 });
 app.service('services', function () {
   this.getMapboxGeocoding = function (data, mapboxConfig) {
@@ -36,6 +36,10 @@ app.controller("core", ['$scope', '$http', 'leafletData', 'leafletMapEvents', 'l
   },
   blueIcon: {
     type: 'extraMarker',
+    markerColor: 'blue'
+  },
+  bluedarkIcon: {
+    type: 'extraMarker',
     markerColor: 'blue-dark'
   },
   violetIcon: {
@@ -50,9 +54,21 @@ app.controller("core", ['$scope', '$http', 'leafletData', 'leafletMapEvents', 'l
     type: 'extraMarker',
     markerColor: 'cyan'
   },
+    greenlightIcon: {
+    type: 'extraMarker',
+    markerColor: 'green-light'
+  },
+    greendarkIcon: {
+    type: 'extraMarker',
+    markerColor: 'green-dark'
+  },
   pinkIcon: {
     type: 'extraMarker',
     markerColor: 'pink'
+  },
+  orangedarkIcon: {
+    type: 'extraMarker',
+    markerColor: 'orange-dark'
   },
   blackIcon: {
     type: 'extraMarker',
@@ -62,53 +78,53 @@ app.controller("core", ['$scope', '$http', 'leafletData', 'leafletMapEvents', 'l
   var getIcon = function (status) {
     switch (status) {
       case "Gemeldet":
+        return icons.bluedarkIcon;
+      case "Ampel/Ampelzeiten/Ampelregelung":
         return icons.yellowIcon;
-      case "Oberfläche":
-        return icons.yellowIcon;
-      case "Verkehrsbeschilderung/ Markierung/ Beleuchtung":
+      case "fehlende/defekte Abstellanlagen":
         return icons.greenIcon;
-      case "Radwegweisung":
+      case "Baustelle":
         return icons.redIcon;
-      case "Behinderung":
-        return icons.blueIcon;
-      case "Verkehrsführung":
+      case "Grünpfeil für Radfahrende":
+	  return icons.greendarkIcon;
+      case "fehlende/defekte Beleuchtung":
         return icons.violetIcon;
-      case "Straßenbauarbeiten":
+      case "beschädigte/ungeeignete Oberfläche":
         return icons.orangeIcon;
-      case "Ampel":
+      case "Unklare/unsichere Verkehrsführung":
         return icons.cyanIcon;
-      case "Abstellanlagen":
+      case "Verkehrsbeschilderung/Markierung":
         return icons.pinkIcon;
+      case "fehlende Radverkehrsinfrastruktur":
+        return icons.orangedarkIcon;
       case "Sonstiges":
-        return icons.blackIcon;
-      case "Allgemeines":
-        return icons.blackIcon;
+        return icons.blueIcon;
       }
     };
     var getColor = function (layer) {
       switch (layer) {
         case "gem":
-          return "#f5b730";
-        case "obe":
-          return "#f5b730";
-        case "sch":
-          return "#009244";
-        case "weg":
-          return "#9c262a";
-        case "beh":
-          return "#1a586a";
-        case "fue":
-          return "#4d2860";
-        case "str":
-          return "#ee8918";
+          return "#000000";
         case "amp":
-          return "#25a3db";
+          return "#f5b730";
         case "abs":
+          return "#009244";
+        case "bau":
+          return "#9c262a";
+        case "pfe":
+          return "#005522";
+        case "bel":
+          return "#4d2860";
+        case "obe":
+          return "#ee8918";
+        case "fue":
+          return "#25a3db";
+        case "sch":
           return "#ba4898";
+		case "fri":
+          return "#c02619";
         case "son":
-          return "#231f20";
-        case "all":
-          return "#231f20";
+          return "#10469d";
     }
   };
   $scope.getColor = function (status) {
@@ -119,26 +135,27 @@ app.controller("core", ['$scope', '$http', 'leafletData', 'leafletMapEvents', 'l
       switch (status) {
         case "Gemeldet":
           return "gem";
-        case "Oberfläche":
-          return "obe";
-        case "Verkehrsbeschilderung/ Markierung/ Beleuchtung":
-          return "sch";
-        case "Radwegweisung":
-          return "weg";
-        case "Behinderung":
-          return "beh";
-        case "Verkehrsführung":
-          return "fue";
-        case "Straßenbauarbeiten":
-          return "str";
-        case "Ampel":
+        case "Ampel/Ampelzeiten/Ampelregelung":
           return "amp";
-        case "Abstellanlagen":
+        case "fehlende/defekte Abstellanlagen":
           return "abs";
+        case "Baustelle":
+          return "bau";
+        case "Grünpfeil für Radfahrende":
+          return "pfe";
+        case "fehlende/defekte Beleuchtung":
+          return "bel";
+        case "beschädigte/ungeeignete Oberfläche":
+          return "obe";
+        case "Unklare/unsichere Verkehrsführung":
+          return "fue";
+        case "Verkehrsbeschilderung/Markierung":
+          return "sch";
+        case "fehlende Radverkehrsinfrastruktur":
+          return "fri";
         case "Sonstiges":
           return "son";
-        case "Allgemeines":
-          return "all";
+
         }
       };
 $scope.goToElement = function(id) {
@@ -228,47 +245,48 @@ $scope.$on("leafletDirectiveMap.main.click", function(event){
     },
     layers: {
       overlays: {
-      obe: {
-        name: "<span class='fa fa-circle' style='color: "+getColor("obe")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("obe")+"'>Oberfläche</span>",
-        type: "group",
-        visible: true
-      },
-      all: {
-        visible: false,
-        type: "group"
-      },
-      sch: {
-        name: "<span class='fa fa-circle' style='color: "+getColor("sch")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("sch")+"'>Verkehrsbeschilderung/ Markierung/ Beleuchtung</span>",
-        type: "group",
-        visible: true
-      },
-      weg: {
-        name: "<span class='fa fa-circle' style='color: "+getColor("weg")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("weg")+"'>Radwegweisung</span>",
-        type: "group",
-        visible: true
-      },
-      beh: {
-        name: "<span class='fa fa-circle' style='color: "+getColor("beh")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("beh")+"'>Behinderung</span>",
-        type: "group",
-        visible: true
-      },
-      fue: {
-        name: "<span class='fa fa-circle' style='color: "+getColor("fue")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("fue")+"'>Verkehrsführung</span>",
-        type: "group",
-        visible: true
-      },
-      str: {
-        name: "<span class='fa fa-circle' style='color: "+getColor("str")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("str")+"'>Straßenbauarbeiten</span>",
-        type: "group",
-        visible: true
-      },
       amp: {
-        name: "<span class='fa fa-circle' style='color: "+getColor("amp")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("amp")+"'>Ampel</span>",
+        name: "<span class='fa fa-circle' style='color: "+getColor("amp")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("amp")+"'>Ampel/Ampelzeiten/Ampelregelung</span>",
         type: "group",
         visible: true
       },
       abs: {
-        name: "<span class='fa fa-circle' style='color: "+getColor("abs")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("abs")+"'>Abstellanlagen</span>",
+        name: "<span class='fa fa-circle' style='color: "+getColor("abs")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("abs")+"'>fehlende/defekte Abstellanlagen</span>",
+        type: "group",
+        visible: true
+      },
+      bau: {
+        name: "<span class='fa fa-circle' style='color: "+getColor("bau")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("bau")+"'>Baustelle</span>",
+        type: "group",
+        visible: true
+      },
+      pfe: {
+        name: "<span class='fa fa-circle' style='color: "+getColor("pfe")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("pfe")+"'>Grünpfeil für Radfahrende</span>",
+        type: "group",
+        visible: true
+      },
+      bel: {
+        name: "<span class='fa fa-circle' style='color: "+getColor("bel")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("bel")+"'>fehlende/defekte Beleuchtung</span>",
+        type: "group",
+        visible: true
+      },
+      obe: {
+        name: "<span class='fa fa-circle' style='color: "+getColor("obe")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("obe")+"'>beschädigte/ungeeignete Oberfläche</span>",
+        type: "group",
+        visible: true
+      },
+      fue: {
+        name: "<span class='fa fa-circle' style='color: "+getColor("fue")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("fue")+"'>Unklare/unsichere Verkehrsführung</span>",
+        type: "group",
+        visible: true
+      },
+      sch: {
+        name: "<span class='fa fa-circle' style='color: "+getColor("sch")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("sch")+"'>Verkehrsbeschilderung/Markierung</span>",
+        type: "group",
+        visible: true
+      },
+      fri: {
+        name: "<span class='fa fa-circle' style='color: "+getColor("fri")+";'></span>&nbsp;<span class='badge badge-secondary' style='background-color: "+getColor("fri")+"'>fehlende Radverkehrsinfrastruktur</span>",
         type: "group",
         visible: true
       },
