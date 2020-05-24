@@ -117,7 +117,7 @@ if($data['BildURI']!="") {
   $DataUriSep = explode(',', $DataUriRaw);
   $DataImage = base64_decode($DataUriSep[1]);
   $filename = $id."-".date("YmdHis").".jpg";
-  $filepath = $_SERVER['DOCUMENT_ROOT']."/".$uploadpath.".$filename;
+  $filepath = $_SERVER['DOCUMENT_ROOT']."/".$uploadpath."/".$filename;
   file_put_contents($filepath,$DataImage);
   $mysql->query("UPDATE stellen SET Bild='$filename' WHERE id=$id;");
   //$mysql->query("insert into debugtabelle(debug) value('$filepath');");

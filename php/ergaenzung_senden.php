@@ -60,7 +60,7 @@ try {
     $mail->Subject = "Ergänzung zu Radwegmeldermeldung #".$id;
     //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	
-	$text = "Es wurde eine Ergänzung im Radwegmelder gemacht. Bitte unter '.$verwaltungpath.' ergänzen, falls relevant.<br><br>";
+	$text = "Es wurde eine Ergänzung im Radwegmelder gemacht. Bitte unter ".$verwaltungpath." ergänzen, falls relevant.<br><br>";
 	$text.= "************************* ID: ".$id." *************************";
 	$text.="<br><br>";
 	$text.= "Originaltitel: ".$otitel;
