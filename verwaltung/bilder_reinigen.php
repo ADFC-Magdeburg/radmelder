@@ -11,7 +11,7 @@ $bereinigt=array();
 $query = $mysql->query("SELECT id, Bild FROM stellen WHERE declined=0;");
 while($s=$query->fetch_assoc()) {
   ++$i;
-  $url = "/var/www/virtual/kaktus/html/upload/".$s['Bild'];
+  $url = $fulluploadpath.$s['Bild'];
   echo $url."\n";
   if(file_exists($url))
   {
