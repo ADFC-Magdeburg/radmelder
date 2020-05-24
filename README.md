@@ -1,5 +1,6 @@
-#ADFC-Radwegmelder-Magdeburg
-Dies ist eine modifizierte Version des Radmelders von Albert Wenzel [@albwe](https://albwe.de), der auf dem Stand vom 08.10.2018 aufgebaut wurde. Da ich zu diesem Zeitpunkt noch kein Git/Github vernwendet habe, sind die Versionen auseinander gelaufen. Ziel ist es aber, diese in zukunft wieder zusammenzuführen, um von den letzten Änderungen zu prifitieren ohne die geien Modifikationen zu verlieren.
+#RadwegmelderMagdeburg
+Dies ist eine modifizierte Version des Radmelders von Albert Wenzel [@albwe](https://albwe.de), der auf dem Stand vom 08.10.2018 aufgebaut wurde.
+Da ich zu diesem Zeitpunkt noch kein Git/Github verwendet habe, sind die Versionen auseinander gelaufen. Ziel ist es aber, diese in Zukunft wieder zusammenzuführen, um von den letzten Änderungen zu profitieren ohne die eigenen Modifikationen zu verlieren.
 
 Hier der Text der Original Readme.md:
 ## Radmelder
