@@ -1,3 +1,8 @@
 php/config.php
 js/config.js
 .remote-sync.json
+upload
+verwaltung/.htaccess
+verwaltung/.htpasswd
+php/PHPMailer
+offenes.txt
