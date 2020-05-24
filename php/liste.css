@@ -1,0 +1,73 @@
+.btn {
+	text-transform: uppercase;
+	cursor: pointer;
+	font-family: Tahoma, Geneva, sans-serif;
+	color: #ffffff;
+	font-size: 1em;
+	font-weight: bold;
+	padding-right: 25px;
+	padding-left: 25px;
+	border-width: 3px;
+	border-color: #ff7f38;
+	border-style: solid;
+	background: -moz-linear-gradient(top, #ff7f38 0%, #ff7e3a 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff7f38), color-stop(100%, #ff7e3a));
+	background: -webkit-linear-gradient(top, #ff7f38 0%, #ff7e3a 100%);
+	background: -o-linear-gradient(top, #ff7f38 0%, #ff7e3a 100%);
+	background: -ms-linear-gradient(top, #ff7f38 0%, #ff7e3a 100%);
+	background: linear-gradient(to bottom, #ff7f38 0%, #ff7e3a 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff7f38', endColorstr='#ff7e3a', GradientType=0);
+	transition-property: all;
+	transition-duration: 100ms;
+	transition-timing-function: ease;
+	margin:3px;
+}
+.btn:hover {
+	border-width: 3px;
+	border-color: #d1672a;
+	border-style: solid;
+}
+.btn:active {
+	top: 1px;
+}
+
+
+table, th, td {
+  border: 1px solid black;
+  padding: 10px;
+  text-align: left;
+  font-family:sans-serif;
+  border-spacing:0px;
+  border-collapse: collapse;
+  margin:0px 100px 0px 100px;
+  font-size:1em;
+}
+
+.rechtsbuendig {
+	text-align: right;
+	
+	}
+
+a{
+ color: #FF6301;
+ text-decoration:none; 
+}
+
+.c0{
+	background:#FFB138;
+}
+
+.c1{
+	background:#C2E3FF;
+}
+
+.c2{
+	background:#A9D9FF;
+}
+
+
+.container {
+display: grid;
+justify-content: center;
+}
+
