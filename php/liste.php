@@ -27,19 +27,25 @@
 			}
 		echo "</center>";		
 		if (empty($status)==false){
-			$sql = "select id,Titel, Problem, Status,date_format(date(timestamp),'%d.%m.%Y') as datum from stellen where published=1 and declined=0 and replace(replace(Status,'/',''),' ','')='".$status_ersetzt."' order by timestamp desc";
+			$sql = "select id,Titel, Problem, Status,date_format(date(timestamp),'%d.%m.%Y') as datum, Bild from stellen where published=1 and declined=0 and replace(replace(Status,'/',''),' ','')='".$status_ersetzt."' order by timestamp desc";
 			//echo '<br>'.$sql.'<br>';
 			echo '<div class="container">
 					<div class="centered-element">
 					<br><br>
-					<table><tr class="c0"><td>Datum</td><td>Titel</td><td>Problem</td></tr>';		
+					<table><tr class="c0"><td>Datum</td><td>Titel</td><td>Bild</td><td>Problem</td></tr>';		
 					$n=1;
 			foreach ($conn->query($sql) as $row) {
 						$id=$row['id'];
 						$titel=$row['Titel'];
 						$problem=$row['Problem'];	
-						$datum=$row['datum'];														
-						echo '<tr class="c'.$n.'"><td style="white-space: nowrap;">'.$datum.'</td><td><a href="share.php?id='.$id.'" target=_blank>'.$titel.'</a></td><td>'.$problem.'</td></tr>';
+						$datum=$row['datum'];			
+						$bild=$row['Bild'];
+						if (!empty($bild)) {
+							$bild='<img src="../upload/'.$bild.'" width=100%>';
+						} else {
+							$bild='';
+						}
+						echo '<tr class="c'.$n.'"><td style="white-space: nowrap;">'.$datum.'</td><td><a href="share.php?id='.$id.'" target=_blank>'.$titel.'</a></td><td>'.$bild.'</td><td>'.$problem.'</td></tr>';
 						
 						if ($n==1){						
 							$n=2;							
