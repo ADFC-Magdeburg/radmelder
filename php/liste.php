@@ -41,7 +41,7 @@
 						$datum=$row['datum'];			
 						$bild=$row['Bild'];
 						if (!empty($bild)) {
-							$bild='<img src="../upload/'.$bild.'" width=100%>';
+							$bild='<a href="../upload/'.$bild.'" target=_blank><img src="../upload/'.$bild.'" width=100%></a>';
 						} else {
 							$bild='';
 						}
