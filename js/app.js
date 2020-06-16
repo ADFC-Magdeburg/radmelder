@@ -305,9 +305,12 @@ $scope.$on("leafletDirectiveMap.main.click", function(event){
     },
     icons: icons,
     tiles: {
-      url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token='+appCfg.mapbox.access_token,
-      options: {
-        id: 'mapbox.streets',
+	  //url: 'https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}?access_token='+appCfg.mapbox.access_token,	
+	  url: 'https://api.mapbox.com/styles/v1/arnobattke/ckbfgqjan15u51io65fagh5z7/tiles/256/{z}/{x}/{y}@2x?access_token='+appCfg.mapbox.access_token,
+	  options: {
+		//id: 'mapbox.streets',
+        //id: 'mapbox/outdoors-v11',
+		id: 'mapbox/streets-v11',
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
       }
     },
