@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-12" style="height: 500px; overflow:auto;">
+      <div class="col-lg-12" style="height: 200px; overflow:auto;">
         <table class="table table-hover">
           <thead>
             <tr>
@@ -88,31 +88,47 @@
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
       	<label for="Titel">Titel/Ort*:</label>
-      	<input ng-model="f.Titel" type="text" name="Titel" value="" required class="form-control"><br>
+      	<input ng-model="f.Titel" type="text" name="Titel" value="" required class="form-control">
       </div>
-
-      <div class="form-group">
-        <label for="Adresse">Adresse </label>
-        <div class="input-group">
-        <input type="text" ng-model="f.position_text" name="adresse" class="form-control"/>
-        <div class="input-group-append">
-          <button class="btn btn-primary" ng-click="orten(f.position_text)">Orten</button>
-      </div>
-      </div>
-      <small class="text-muted form-text">Die Änderungen am Position-Text werden nicht gespeichert, lediglich die aktualisierten Koordinaten</small>
-      	<label for="Lat">Lat</label>
-      	<input disabled type="text" id="Lat" name="Lat" ng-model="f.lat" class="form-control">
-        <label for="lng">Lng</label>
-      	<input disabled type="text" id="lng" name="lng" ng-model="f.lng" class="form-control">
-      </div>
+	  <div class="form-group">
+		<label for="Adresse">Adresse </label>
+		<div class="input-group">
+			<input type="text" ng-model="f.position_text" name="adresse" class="form-control"/>
+			<div class="input-group-append">
+				<button class="btn btn-primary" ng-click="orten(f.position_text)">Orten</button>
+			</div>
+		</div>
+		<small class="text-muted form-text">Die Änderungen am Position-Text werden nicht gespeichert, lediglich die aktualisierten Koordinaten</small>
+		<table>
+			<tr>
+				<td>
+				<label for="Lat">Latitude</label><input disabled type="text" id="Lat" name="Lat" ng-model="f.lat" class="form-control">
+				</td>
+				<td>
+				<label for="lng">Longitude</label><input disabled type="text" id="lng" name="lng" ng-model="f.lng" class="form-control">
+				</td>
+				<td>&nbsp;<br>
+				<span ng-show="f.newlatlng"><button class="btn btn-sm btn-outline-secondary" ng-click="resetlatlng(f)">Reset</button></span>
+				</td>
+			</tr>
+		</table>		
+	  </div>
+	  <a href="https://www.google.com/maps/@?api=1&map_action=map&center={{f.lat}},{{f.lng}}&zoom=19&basemap=satellite" target="_blank">Satelliten-/Luftbild auf Google Maps anzeigen</a>
       <leaflet id="editmap" style="width: 100%; height: 300px;" events="events" lf-center="center" markers="markers"></leaflet><br/>
-      <span ng-show="f.newlatlng">Lat: {{f.lat}}, Lng: {{f.lng}} <button class="btn btn-sm btn-outline-secondary" ng-click="resetlatlng(f)">Reset</button></span>
+
+	  <!--Button erscheint, wenn man Koordinaten des Markers verschiebt- Damit ist Rücksetzung auf Originalpositon möglich -->
+      
+	  
+
+	  
+
+	 
 </div>
 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
       <div class="form-group">
       	<label for="Problem">Problem:</label>
-      	<textarea name="Problem" ng-model="f.Problem" rows="3" cols="30" maxlength="1500" required class="form-control"></textarea><br>
+      	<textarea name="Problem" ng-model="f.Problem" rows="3" cols="30" maxlength="1500" required class="form-control"></textarea>
       </div>
       <div class="form-group">
         <label for="Status">Kategorie</label>
