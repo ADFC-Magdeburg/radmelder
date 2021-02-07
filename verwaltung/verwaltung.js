@@ -4,7 +4,9 @@ angular.module('radwege').controller("edit", ['$scope', '$http', '$filter', 'lea
     markerColor: 'white'
   };
   $scope.filtern= {
-    published: 0
+    published: 0,
+	declined: 0,
+	solved: 0
   }
   $scope.events = {
                 markers: {
@@ -19,7 +21,7 @@ angular.module('radwege').controller("edit", ['$scope', '$http', '$filter', 'lea
   $scope.save = function (f) {
     $http.post("savechange.php", JSON.stringify(f)).then(function (response) {
       if (response.data.success=="1") {
-        alert("Änderungen gespeichert. Der Eintrag ist aber noch nicht freigeschaltet.");
+        alert("Änderungen gespeichert. Der Eintrag ist aber evtl. noch nicht freigeschaltet.");
       }
     });
   };
@@ -27,22 +29,45 @@ angular.module('radwege').controller("edit", ['$scope', '$http', '$filter', 'lea
     $http.post("publish.php", JSON.stringify(f)).then(function (response) {
       if (response.data.success=="1") {
         alert("Änderungen gespeichert. Der Eintrag ist freigeschaltet.");
-        //$scope.$apply(function () {
         $scope.eintraege.splice($scope.eintraege.indexOf(f), 1);
         $scope.f = $filter('filter')($scope.eintraege, $scope.filtern)[0];
         $scope.selecteditem();
-        //});
       }
     });
   };
   $scope.decline = function (f) {
-    if (confirm("Den Eintrag wirklich löschen?")) {
+    if (confirm("Den Eintrag wirklich ablehnen (wird nicht gelöscht)? Änderungen in anderen Feldern werden nicht gespeichert.")) {
       $http.post("decline.php", JSON.stringify({id: f.id})).then(function (response) {
-        //$scope.$apply(function () {
         $scope.eintraege.splice($scope.eintraege.indexOf(f), 1);
         $scope.f = $filter('filter')($scope.eintraege, $scope.filtern)[0];
         $scope.selecteditem();
-        //});
+      });
+  }
+};
+  $scope.unpublish = function (f) {
+    if (confirm("Veröffentlichung aufheben? Änderungen in anderen Feldern werden nicht gespeichert.")) {
+      $http.post("unpublish.php", JSON.stringify({id: f.id})).then(function (response) {
+        $scope.eintraege.splice($scope.eintraege.indexOf(f), 1);
+        $scope.f = $filter('filter')($scope.eintraege, $scope.filtern)[0];
+        $scope.selecteditem();
+      });
+  }
+};
+  $scope.solved = function (f) {
+    if (confirm("Als gelöst markieren? Änderungen in anderen Feldern werden nicht gespeichert.")) {
+      $http.post("mark_solved.php", JSON.stringify({id: f.id})).then(function (response) {
+        $scope.eintraege.splice($scope.eintraege.indexOf(f), 1);
+        $scope.f = $filter('filter')($scope.eintraege, $scope.filtern)[0];
+        $scope.selecteditem();
+      });
+  }
+};
+  $scope.unsolved = function (f) {
+    if (confirm("Gelöststatus rückgängig machen? Änderungen in anderen Feldern werden nicht gespeichert.")) {
+      $http.post("mark_unsolved.php", JSON.stringify({id: f.id})).then(function (response) {
+        $scope.eintraege.splice($scope.eintraege.indexOf(f), 1);
+        $scope.f = $filter('filter')($scope.eintraege, $scope.filtern)[0];
+        $scope.selecteditem();
       });
   }
 };
@@ -77,7 +102,7 @@ $scope.$on('leafletDirectiveMarker.editmap.dragend', function (e, args) {
       $scope.f.lat = args.model.lat;
       $scope.f.lng = args.model.lng;
 });
-  $http.get("getunpublished.php").then(function (response) {
+  $http.get("getspots_unfiltered.php").then(function (response) {
     var markers = response.data.markers;
     for (var i=0; i<markers.length; i++) {
       markers[i].draggable = true;
@@ -90,7 +115,8 @@ $scope.$on('leafletDirectiveMarker.editmap.dragend', function (e, args) {
     $scope.eintraege = markers;
     $scope.f = $filter('filter')($scope.eintraege, $scope.filtern)[0];
     $scope.selecteditem();
-  });
+  });  
+  
   $scope.mail = {
     subject: "Rückfrage zu deinem Radmelder-Beitrag",
     message:""

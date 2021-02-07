@@ -1,0 +1,2 @@
+alter table stellen add column solved int default 0
+

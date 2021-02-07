@@ -6,7 +6,7 @@ $mysql->set_charset("utf8");
 
 $data = json_decode(file_get_contents('php://input'), true);
 $id = $data['id'];
-$query_text = "UPDATE stellen SET declined=1, published=0, solved=0 WHERE id=$id;";
+$query_text = "UPDATE stellen SET declined=0, published=1, solved=0 WHERE id=$id;";
 //echo $query_text;
 $query = $mysql->query($query_text);
 //var_dump($query);

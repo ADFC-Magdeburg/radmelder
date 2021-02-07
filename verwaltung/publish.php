@@ -3,6 +3,8 @@ include("../php/config.php");
 
 $mysql = new mysqli($host, $user, $password, $database);
 $mysql->set_charset("utf8");
+//alert("publish");
+
 
 $data = json_decode(file_get_contents('php://input'), true);
 $id = $data['id'];
@@ -14,7 +16,7 @@ $Problem = $data['Problem']!='' ? "'".$data['Problem']."'" : "NULL";
 $Status = $data['Status']!='' ? "'".$data['Status']."'" : "NULL";
 $Bild = $data['Bild']!='' ? "'".$data['Bild']."'" : "NULL";
 $Service_Note = $data['service_note']!='' ? "'".$data['service_note']."'" : "NULL";
-$query_text = "UPDATE stellen SET lat=$lat, lng=$lng, Titel=$Titel, Problem=$Problem, Status=$Status, Bild=$Bild, published=1 WHERE id=$id;";
+$query_text = "UPDATE stellen SET lat=$lat, lng=$lng, Titel=$Titel, Problem=$Problem, Status=$Status, Bild=$Bild, published=1, declined=0, solved=0 WHERE id=$id;";
 //echo $query_text;
 $query = $mysql->query($query_text);
 $query2 = $mysql->query("UPDATE service SET service_note=$Service_Note WHERE fk_stelle=$id");

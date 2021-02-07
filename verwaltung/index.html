@@ -39,16 +39,24 @@
   <div class="container" ng-controller="edit">
     <h1>Verwaltung</h1>
     <div class="row">
-      <div class="col-lg-4 col-sm-12">
+      <div class="col-md-3 col-sm-12">
         <input type="text" style="width: 100%;" class="form-control" placeholder="Suchen" ng-model="suche"/>
       </div>
-      <div class="col-lg-4 col-sm-12">
-        <h3>
-        <a class="badge" ng-class="{'cl': filtern.published!=0, 'badge-primary': filtern.published==0, 'badge-secondary': filtern.published!=0}" ng-click="filtern.published=0">Eingereicht</a>
-        <a class="badge" ng-class="{'cl': filtern.published!=1, 'badge-primary': filtern.published==1, 'badge-secondary': filtern.published!=1}" ng-click="filtern.published=1">Veröffentlicht</a>
-      </h3>
+      <div class="col-md-6 col-sm-12">
+        <h5>
+		<!--neue Spalte solved. Spalte muss vom Typ int sein und nicht bit, sonst funktioniert Filter nicht.
+		Die Klasse für die Buttons wird gesetzt, wenn die jeweiligen Filterbdeingungen zutreffen. Ich weiß nicht, wie man einen Filter entfernt,
+		deshalb musste ich explizit die Filter mit allen Details setzen, statt einfach nur zu sagen, zeige alle published. Dadurch gibt es aber
+		gewisse Kombinationen nicht wie "published, aber declined".
+		cl definiert Klickbarkeit des Buttons. Durch neue Filtererweiterung wäre Defintion ob klickbar oder nicht zu aufwändig. Also immer klickbar. Quick and dirty.
+		-->
+		<a class="badge" ng-class="{'cl': true, 'badge-primary': filtern.published==0 && filtern.declined==0 && filtern.solved==0, 	'badge-secondary': filtern.published==1 || filtern.declined==1 || filtern.solved==1}" 	ng-click="filtern.published=0;filtern.declined=0;filtern.solved=0">Eingereicht</a>
+        <a class="badge" ng-class="{'cl': true, 'badge-primary': filtern.published==1 && filtern.declined==0 && filtern.solved==0, 	'badge-secondary': filtern.published==0 || filtern.declined==1 || filtern.solved==1}" 	ng-click="filtern.published=1;filtern.declined=0;filtern.solved=0">Veröffentlicht (ungelöst)</a>
+		<a class="badge" ng-class="{'cl': true, 'badge-primary': filtern.published==1 && filtern.declined==0 && filtern.solved==1, 	'badge-secondary': filtern.published==0 || filtern.declined==1 || filtern.solved==0}" 	ng-click="filtern.published=1;filtern.declined=0;filtern.solved=1">Gelöst</a>
+		<a class="badge" ng-class="{'cl': true, 'badge-primary': filtern.published==0 && filtern.declined==1 && filtern.solved==0, 	'badge-secondary': filtern.published==1 || filtern.declined==0 || filtern.solved==1}" 	ng-click="filtern.published=0;filtern.declined=1;filtern.solved=0">Abgelehnt</a>
+      </h5>
       </div>
-      <div class="col-lg-4 col-sm-12">
+      <div class="col-md-3 col-sm-12">
         Aktuelle Auswahl: {{filtered.length}} Einträge
       </div>
     </div>
@@ -80,9 +88,7 @@
         </table>
       </div>
     </div>
-    <div class="row eintrag">
-      <div class="col-lg-12"><h2>{{f.Titel}}&nbsp;&nbsp;<button class="btn btn-default" ng-click="save(f)"> Speichern</button>
-      <button class="btn btn-primary" ng-click="publish(f)" ng-disabled="f.published==1"> Speichern&Freigeben</button><button class="btn btn-danger" ng-click="decline(f)">Ablehnen</button></h2></div>
+    <div class="row eintrag">	  
       <form class="form">
         <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -125,7 +131,15 @@
 	 
 </div>
 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
+      <div class="form-group">
+		  <h3>{{f.Titel}}</h3>
+		  <button class="btn btn-primary" ng-click="publish(f)"		ng-disabled="f.published==1">Speichern&Freigeben</button>
+		  <button class="btn btn-default" ng-click="save(f)"									>Speichern</button>
+		  <button class="btn btn-default" ng-click="unpublish(f)" 	ng-disabled="f.published==0 || f.declined==1">Freigabe aufheben</button>
+		  <button class="btn btn-default" ng-click="solved(f)" 		ng-disabled="f.solved==1"	>Als gelöst markieren</button>
+		  <button class="btn btn-default" ng-click="unsolved(f)"	ng-disabled="f.solved==0"	>Gelöst aufheben</button>
+		  <button class="btn btn-danger"  ng-click="decline(f)"		ng-disabled="f.declined==1"	>Ablehnen</button>
+	  </div>
       <div class="form-group">
       	<label for="Problem">Problem:</label>
       	<textarea name="Problem" ng-model="f.Problem" rows="3" cols="30" maxlength="1500" required class="form-control"></textarea>
