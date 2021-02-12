@@ -183,9 +183,12 @@
     <div class="card-header text-white" ng-style="f.clicked? null:{'background-color': getColor(f.Status)}">
       {{f.Status}}
     </div>
+
     <img class="img-fluid card-img-top" style="" ng-hide="false" src="https://adfc-magdeburg.de/radwegmelder/upload/{{(!f.Bild || f.Bild == '' || f.Bild == 'NULL')? 'platzhalter.jpg':f.Bild}}" style="max-width: 100%; height: auto">
-	
-    <div class="card-body">
+	<div class="card-header text-white" ng-style="f.clicked? null:{'background-color':(f.solved == '0')? '#cc0000':'#008000'}">
+      {{(f.solved == '0')? 'Problem ungelöst':'Problem gelöst'}}
+	</div>
+	<div class="card-body">
       <h5 class="card-title" ng-class="{'text-white': f.clicked}">{{f.Titel}}</h5>
           <p class="card-text" ng-show="f.more">
 		<b ng-hide="!f.Loesung || f.Loesung=='' || f.Loesung=='NULL'">Problem<br/>

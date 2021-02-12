@@ -336,8 +336,18 @@ $scope.$on("leafletDirectiveMap.main.click", function(event){
           bild = "<div><img style=\"max-width: 100%; max-height: 200px;\" src=\"https://adfc-magdeburg.de/radwegmelder/upload/"+markers[i].Bild+"\"></div>";
         }
 	
-	
-      markers[i].message =  bild + "<h5 class=\"markertitle\">"+markers[i].Titel+"<br><span class=\"badge badge-secondary\" style=\"background-color: "+getColor(getLayer(markers[i].Status))+";\">"+markers[i].Status+"</span></h5><p ng-show=\"show"+markers[i].id+"\">"+markers[i].timestamp+" | "+markers[i].Problem+"<br><br><a style='color: #e52b50; text-decoration: underline;' href='php/ergaenzung.php?id="+markers[i].id+"'>Ergänzung melden</a><br><a style='color: #e52b50; text-decoration: underline;' href='php/share.php?id="+markers[i].id+"'>Link zum Teilen</a></p><button class='btn btn-outline-secondary btn-sm cl' ng-click=\"show"+markers[i].id+"=!show"+markers[i].id+";\" ng-hide=\"show"+markers[i].id+"\">Mehr</button><button class=\"btn btn-outline-secondary btn-sm\" ng-class=\"{'text-white': markers["+i+"].clicked}\" ng-style=\"markers["+i+"].user_supported? {cursor: 'default'}:null\" ng-click=\"vote(markers["+i+"])\"><span ng-hide=\"markers["+i+"].user_supported\"><span class=\"fas fa-thumbs-up\"></span> Voten</span><span ng-show=\"markers["+i+"].user_supported\"><span class=\"fas fa-check\"></span>Gevoted</span></button><span ng-class=\"{'text-white': markers["+i+"].clicked, 'text-muted': !f.clicked}\">&nbsp;{{markers["+i+"].supported? markers["+i+"].supported:0}}x gevoted</span>";
+	 //wenn gelöstes Problem, im Popup Status entsprechend anzeigen	
+	 var solved_text;
+	 if (markers[i].solved==0){
+		solved_text="Problem ungelöst";
+		solved_color="#cc0000";
+	 } else {solved_text="Problem gelöst";
+		solved_color="#008000";
+	 };
+
+	 var solved="<span class=\"badge badge-secondary\" style=\"background-color: "+solved_color+";\">"+solved_text+"</span>";
+     
+	 markers[i].message =  bild + "<h5 class=\"markertitle\">"+markers[i].Titel+"<br><span class=\"badge badge-secondary\" style=\"background-color: "+getColor(getLayer(markers[i].Status))+";\">"+markers[i].Status+"</span><br>"+solved+"</h5><p ng-show=\"show"+markers[i].id+"\">"+markers[i].timestamp+" | "+markers[i].Problem+"<br><br><a style='color: #e52b50; text-decoration: underline;' href='php/ergaenzung.php?id="+markers[i].id+"'>Ergänzung melden</a><br><a style='color: #e52b50; text-decoration: underline;' href='php/share.php?id="+markers[i].id+"'>Link zum Teilen</a></p><button class='btn btn-outline-secondary btn-sm cl' ng-click=\"show"+markers[i].id+"=!show"+markers[i].id+";\" ng-hide=\"show"+markers[i].id+"\">Mehr</button><button class=\"btn btn-outline-secondary btn-sm\" ng-class=\"{'text-white': markers["+i+"].clicked}\" ng-style=\"markers["+i+"].user_supported? {cursor: 'default'}:null\" ng-click=\"vote(markers["+i+"])\"><span ng-hide=\"markers["+i+"].user_supported\"><span class=\"fas fa-thumbs-up\"></span> Voten</span><span ng-show=\"markers["+i+"].user_supported\"><span class=\"fas fa-check\"></span>Gevoted</span></button><span ng-class=\"{'text-white': markers["+i+"].clicked, 'text-muted': !f.clicked}\">&nbsp;{{markers["+i+"].supported? markers["+i+"].supported:0}}x gevoted</span>";
 	   
  	  /* Original
 		markers[i].message =  bild + "<h5 class=\"markertitle\">"+markers[i].Titel+"<br><span class=\"badge badge-secondary\" style=\"background-color: "+getColor(getLayer(markers[i].Status))+";\">"+markers[i].Status+"</span></h5><p ng-show=\"show"+markers[i].id+"\">"+markers[i].Problem+"<br>("+markers[i].timestamp+")<br><a style='color: #e52b50; text-decoration: underline;' href='php/ergaenzung.php?id="+markers[i].id+"'>Ergänzung melden</a></p><button class='btn btn-outline-secondary btn-sm cl' ng-click=\"show"+markers[i].id+"=!show"+markers[i].id+";\" ng-hide=\"show"+markers[i].id+"\">Details anzeigen</button>";
